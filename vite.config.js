@@ -49,6 +49,14 @@ export default defineConfig({
     },
   },
   plugins: [reactRouter(), tsconfigPaths()],
+   css: {
+    postcss: {
+      plugins: [
+        require("tailwindcss"),
+        require("autoprefixer"),
+      ],
+    },
+  },
   build: {
     assetsInlineLimit: 0,
   },

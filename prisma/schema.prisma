@@ -35,10 +35,23 @@ model Session {
 model UserSettings {
   id          Int      @id @default(autoincrement())
   shop        String
-  userToken   String
-  websiteUrl  String
+  userToken   String?
+  websiteUrl  String?
+
+  secret      String?
+  mobile      String?
+  email       String?
+  gender      String?
+  age         String?
+  transaction String?
+  city        String?
+  state       String?
+  os          String?
+  device      String?
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
 
 

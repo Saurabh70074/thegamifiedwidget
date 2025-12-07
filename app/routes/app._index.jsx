@@ -3,6 +3,7 @@ import { useFetcher } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
+import Visit from "../components/Visit";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
@@ -87,11 +88,12 @@ export default function Index() {
       shopify.toast.show("Product created");
     }
   }, [fetcher.data?.product?.id, shopify]);
+
   const generateProduct = () => fetcher.submit({}, { method: "POST" });
 
   return (
     <s-page heading="Shopify app template">
-      <s-button slot="primary-action" onClick={generateProduct}>
+      {/* <s-button slot="primary-action" onClick={generateProduct}>
         Generate a product
       </s-button>
 
@@ -113,21 +115,27 @@ export default function Index() {
           >
             Admin GraphQL
           </s-link>{" "}
-          mutation demo, to provide a starting point for app development.
+          mutation demo.
         </s-paragraph>
+      </s-section> */}
+
+      {/* ⭐⭐⭐ ADD YOUR VISIT COMPONENT HERE ⭐⭐⭐ */}
+      <s-section heading="Gamified Reward Card">
+        <div style={{ marginTop: "20px" }}>
+          <Visit
+            secret="8213a4078f82676dc243859fa9eb4f2aff62f6c62a7f0f174cf7e9873a37a330"
+            mobile="9876543221"
+            email="test@gmail.com"
+          />
+        </div>
       </s-section>
-      <s-section heading="Get started with products">
+      {/* ⭐⭐⭐ END VISIT COMPONENT ⭐⭐⭐ */}
+
+      {/* <s-section heading="Get started with products">
         <s-paragraph>
-          Generate a product with GraphQL and get the JSON output for that
-          product. Learn more about the{" "}
-          <s-link
-            href="https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate"
-            target="_blank"
-          >
-            productCreate
-          </s-link>{" "}
-          mutation in our API references.
+          Generate a product with GraphQL and see output.
         </s-paragraph>
+
         <s-stack direction="inline" gap="base">
           <s-button
             onClick={generateProduct}
@@ -135,51 +143,23 @@ export default function Index() {
           >
             Generate a product
           </s-button>
-          {fetcher.data?.product && (
-            <s-button
-              onClick={() => {
-                shopify.intents.invoke?.("edit:shopify/Product", {
-                  value: fetcher.data?.product?.id,
-                });
-              }}
-              target="_blank"
-              variant="tertiary"
-            >
-              Edit product
-            </s-button>
-          )}
         </s-stack>
+
         {fetcher.data?.product && (
           <s-section heading="productCreate mutation">
             <s-stack direction="block" gap="base">
-              <s-box
-                padding="base"
-                borderWidth="base"
-                borderRadius="base"
-                background="subdued"
-              >
+              <s-box padding="base" borderWidth="base" borderRadius="base" background="subdued">
                 <pre style={{ margin: 0 }}>
                   <code>{JSON.stringify(fetcher.data.product, null, 2)}</code>
-                </pre>
-              </s-box>
-
-              <s-heading>productVariantsBulkUpdate mutation</s-heading>
-              <s-box
-                padding="base"
-                borderWidth="base"
-                borderRadius="base"
-                background="subdued"
-              >
-                <pre style={{ margin: 0 }}>
-                  <code>{JSON.stringify(fetcher.data.variant, null, 2)}</code>
                 </pre>
               </s-box>
             </s-stack>
           </s-section>
         )}
-      </s-section>
+      </s-section> */}
 
-      <s-section slot="aside" heading="App template specs">
+      {/* RIGHT ASIDE */}
+      {/* <s-section slot="aside" heading="App template specs">
         <s-paragraph>
           <s-text>Framework: </s-text>
           <s-link href="https://reactrouter.com/" target="_blank">
@@ -195,48 +175,11 @@ export default function Index() {
             Polaris web components
           </s-link>
         </s-paragraph>
-        <s-paragraph>
-          <s-text>API: </s-text>
-          <s-link
-            href="https://shopify.dev/docs/api/admin-graphql"
-            target="_blank"
-          >
-            GraphQL
-          </s-link>
-        </s-paragraph>
-        <s-paragraph>
-          <s-text>Database: </s-text>
-          <s-link href="https://www.prisma.io/" target="_blank">
-            Prisma
-          </s-link>
-        </s-paragraph>
-      </s-section>
-
-      <s-section slot="aside" heading="Next steps">
-        <s-unordered-list>
-          <s-list-item>
-            Build an{" "}
-            <s-link
-              href="https://shopify.dev/docs/apps/getting-started/build-app-example"
-              target="_blank"
-            >
-              example app
-            </s-link>
-          </s-list-item>
-          <s-list-item>
-            Explore Shopify&apos;s API with{" "}
-            <s-link
-              href="https://shopify.dev/docs/apps/tools/graphiql-admin-api"
-              target="_blank"
-            >
-              GraphiQL
-            </s-link>
-          </s-list-item>
-        </s-unordered-list>
-      </s-section>
+      </s-section> */}
     </s-page>
   );
 }
+
 
 export const headers = (headersArgs) => {
   return boundary.headers(headersArgs);
