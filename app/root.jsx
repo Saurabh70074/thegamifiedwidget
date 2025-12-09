@@ -1,5 +1,5 @@
 import "@shopify/polaris/build/esm/styles.css";
-import "./styles/tailwind.css";
+// import "./styles/tailwind.css";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { AppProvider as PolarisAppProvider } from "@shopify/polaris";
 import enTranslations from "@shopify/polaris/locales/en.json";
