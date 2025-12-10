@@ -1,4 +1,15 @@
 -- CreateTable
+CREATE TABLE "UserSettings" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "shop" TEXT NOT NULL,
+    "shopName" TEXT,
+    "secret" TEXT,
+    "websiteUrl" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Session" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "shop" TEXT NOT NULL,
@@ -16,3 +27,6 @@ CREATE TABLE "Session" (
     "collaborator" BOOLEAN DEFAULT false,
     "emailVerified" BOOLEAN DEFAULT false
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserSettings_shop_key" ON "UserSettings"("shop");

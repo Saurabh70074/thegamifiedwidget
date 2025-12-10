@@ -26,3 +26,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [ "https://example.com/api/auth" ]
+
+
+[[extensions]]
+type = "ui_extension"
+name = "Thank You Page Link"
+handle = "thankyou-link"

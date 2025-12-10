@@ -1,5 +1,9 @@
 import "@shopify/polaris/build/esm/styles.css";
+// import "./styles/tailwind.css";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { AppProvider as PolarisAppProvider } from "@shopify/polaris";
+import enTranslations from "@shopify/polaris/locales/en.json";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
@@ -16,7 +20,22 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <PolarisAppProvider i18n={enTranslations}>
+          <Outlet />
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                background: "#1f2937",
+                color: "white",
+                fontSize: "14px",
+                borderRadius: "10px",
+                padding: "12px 18px",
+                zIndex: 999999999, // extra safety
+              },
+            }}
+          />
+        </PolarisAppProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
