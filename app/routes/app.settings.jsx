@@ -1,105 +1,4 @@
-// import { Form, useFetcher, useLoaderData, useNavigation } from "react-router";
-// import { authenticate } from "../shopify.server";
-// import { getUserSettings, upsertUserSettings } from "../models/UserSettings.server";
-
-
-// // =======================
-// //        LOADER
-// // =======================
-// export async function loader({ request }) {
-//   const { session } = await authenticate.admin(request);
-//   const shop = session.shop;
-
-//   const settings = await getUserSettings(shop);
-
-//   return {
-//     shopName: settings?.shopName || "",
-//     secret: settings?.secret || "",
-//     websiteUrl: settings?.websiteUrl || "",
-//   };
-// }
-
-
-// // =======================
-// //        ACTION
-// // =======================
-// export async function action({ request }) {
-//   console.log("ACTION TRIGGERED!!!"); // <-- TEST
-
-//   const { session } = await authenticate.admin(request);
-//   const shop = session.shop;
-
-//   const formData = await request.formData();
-
-//   const shopName = formData.get("shopName");
-//   const secret = formData.get("secret");
-//   const websiteUrl = formData.get("websiteUrl");
-
-//   await upsertUserSettings({ shop, shopName, secret, websiteUrl });
-
-//   return null;
-// }
-
-
-
-// // =======================
-// //      COMPONENT UI
-// // =======================
-// export default function SettingsPage() {
-//     const fetcher = useFetcher();
-//   const data = useLoaderData();
-//   const loading = fetcher.state === "submitting";
-
-//   return (
-//     <s-page title="Gamified Widget Settings">
-//       <s-card padding>
-
-//         <h2 style={{
-//           fontSize: "18px",
-//           fontWeight: "600",
-//           marginBottom: "20px"
-//         }}>
-//           Enter Your Widget Credentials
-//         </h2>
-
-//         <fetcher.Form method="post" style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-          
-//           <s-text-field
-//             label="Shop Name"
-//             name="shopName"
-//             placeholder="Enter your shop name"
-//             value={data.shopName}
-//           />
-
-//           <s-text-field
-//             label="Secret Key"
-//             name="secret"
-//             placeholder="Enter your secret key"
-//             value={data.secret}
-//           />
-
-//           <s-text-field
-//             label="Website URL"
-//             name="websiteUrl"
-//             placeholder="https://yourwebsite.com"
-//             value={data.websiteUrl}
-//           />
-
-//           <div style={{ marginTop: "10px" }}>
-//             <s-button submit loading={loading}>
-//               Save Settings
-//             </s-button>
-//           </div>
-
-//         </fetcher.Form>
-
-//       </s-card>
-//     </s-page>
-//   );
-// }
-
-
-
+import { useState } from "react";
 import { useFetcher, useLoaderData } from "react-router";
 import { authenticate } from "../shopify.server";
 import { getUserSettings, upsertUserSettings } from "../models/UserSettings.server";
@@ -118,7 +17,7 @@ export async function loader({ request }) {
 }
 
 export async function action({ request }) {
-  console.log("ACTION TRIGGERED!!!"); // <-- You MUST see this
+  console.log("🔥 ACTION TRIGGERED 🔥");
 
   const { session } = await authenticate.admin(request);
   const shop = session.shop;
@@ -129,56 +28,115 @@ export async function action({ request }) {
   const secret = formData.get("secret");
   const websiteUrl = formData.get("websiteUrl");
 
-  await upsertUserSettings({ shop, shopName, secret, websiteUrl });
+  await upsertUserSettings({
+    shop,
+    shopName,
+    secret,
+    websiteUrl,
+  });
 
-  return null;
+  return { ok: true };
 }
 
 export default function SettingsPage() {
-  const fetcher = useFetcher();  // <-- IMPORTANT
+  const fetcher = useFetcher();
   const data = useLoaderData();
+
+  console.log("Loader Data:", data);
+
+  const [shopName, setShopName] = useState(data.shopName);
+  const [secret, setSecret] = useState(data.secret);
+  const [websiteUrl, setWebsiteUrl] = useState(data.websiteUrl);
 
   const loading = fetcher.state === "submitting";
 
-  
+  console.log("Current State:", { shopName, secret, websiteUrl, loading });
+
   console.log("SettingsPage Loaded!");
 
   return (
-    <s-page title="Gamified Widget Settings">
-      <s-card padding>
-        <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "20px" }}>
-          Enter Your Widget Credentials
-        </h2>
+  <div
+    style={{
+      maxWidth: "580px",
+      margin: "40px auto",
+      padding: "28px",
+      background: "white",
+      borderRadius: "14px",
+      boxShadow: "0 4px 18px rgba(0,0,0,0.08)",
+      border: "1px solid #f0f0f0",
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px",
+    }}
+  >
+    <h2
+      style={{
+        fontSize: "24px",
+        fontWeight: "600",
+        textAlign: "center",
+        marginBottom: "6px",
+        color: "#202223",
+      }}
+    >
+      Store Settings
+    </h2>
 
-        <fetcher.Form
-          method="post"
-          style={{ display: "flex", flexDirection: "column", gap: "18px" }}
-        >
-          <s-text-field
-            label="Shop Name"
-            name="shopName"
-            value={data.shopName}
-          />
+    <p
+      style={{
+        textAlign: "center",
+        fontSize: "14px",
+        color: "#6D7175",
+        marginBottom: "20px",
+      }}
+    >
+      Enter your shop details, API secret, and website URL
+    </p>
 
-          <s-text-field
-            label="Secret Key"
-            name="secret"
-            value={data.secret}
-          />
+    <fetcher.Form method="post" style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+      
+      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+        <label style={{ fontSize: "14px", fontWeight: "500" }}>Shop Name</label>
+        <s-text-field
+          name="shopName"
+          value={shopName}
+          onInput={(e) => setShopName(e.target.value)}
+          placeholder="Enter your Shopify shop name"
+        />
+      </div>
 
-          <s-text-field
-            label="Website URL"
-            name="websiteUrl"
-            value={data.websiteUrl}
-          />
+      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+        <label style={{ fontSize: "14px", fontWeight: "500" }}>Secret Key</label>
+        <s-text-field
+          name="secret"
+          value={secret}
+          onInput={(e) => setSecret(e.target.value)}
+          placeholder="Enter secret key"
+        />
+      </div>
 
-          <s-button submit loading={loading}>
-            Save Settings
-          </s-button>
-        </fetcher.Form>
+      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+        <label style={{ fontSize: "14px", fontWeight: "500" }}>Website URL</label>
+        <s-text-field
+          name="websiteUrl"
+          value={websiteUrl}
+          onInput={(e) => setWebsiteUrl(e.target.value)}
+          placeholder="https://yourwebsite.com"
+        />
+      </div>
 
-      </s-card>
-    </s-page>
-  );
+      <s-button
+        type="submit"
+        loading={loading}
+        style={{
+          marginTop: "12px",
+          width: "100%",
+          "--btn-primary": "#2C6ECB",
+        }}
+      >
+        Save Settings
+      </s-button>
+    </fetcher.Form>
+  </div>
+);
+
 }
-
