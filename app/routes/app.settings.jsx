@@ -17,7 +17,6 @@ export async function loader({ request }) {
 }
 
 export async function action({ request }) {
-  console.log("🔥 ACTION TRIGGERED 🔥");
 
   const { session } = await authenticate.admin(request);
   const shop = session.shop;

@@ -111,10 +111,16 @@ export default function Index() {
       <s-section heading="Gamified Reward Card">
         <div style={{ marginTop: "20px" }}>
           <Visit
-            // secret="8213a4078f82676dc243859fa9eb4f2aff62f6c62a7f0f174cf7e9873a37a330"
             secret={secret}
             mobile="9876543221"
             email="test@gmail.com"
+            gender="M"
+            age={30}
+            transaction={500}
+            city="New York"
+            state="NY"
+            os="iOS"
+            device="iPhone"
           />
         </div>
       </s-section>

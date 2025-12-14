@@ -34,6 +34,7 @@
     "@shopify/polaris": "^13.9.5",
     "@shopify/shopify-app-react-router": "^1.0.0",
     "@shopify/shopify-app-session-storage-prisma": "^7.0.0",
+    "@shopify/ui-extensions-react": "^2025.7.1",
     "@tailwindcss/postcss": "^4.1.17",
     "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
