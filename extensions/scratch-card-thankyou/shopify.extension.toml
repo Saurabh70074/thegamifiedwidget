@@ -1,0 +1,11 @@
+name = "scratch-card-thankyou"
+type = "checkout_post_purchase"
+uid = "c6ad0210-cf2f-500b-8506-88d3535dfd94740a37cf"
+
+# [[metafields]]
+# namespace = "my-namespace"
+# key = "my-key"
+
+# [[metafields]]
+# namespace = "my-namespace"
+# key = "my-key-2"
