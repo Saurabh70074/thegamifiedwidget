@@ -257,7 +257,6 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                               try {
                                 ui.action.copyToClipboard(couponCode);
                               } catch (e) {}
-                              sendTrackingApi(couponId, couponCode, publisherId, "click");
                             },
                           },
                           "Copy"
