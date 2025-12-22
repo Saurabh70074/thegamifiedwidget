@@ -23,9 +23,9 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
   const userId = inputData?.initialPurchase?.customerId;
   const userEmail = inputData?.initialPurchase?.customer?.email || "";
 
-  // use first apiUrl after the BE fix for Domain as secret key.....
-  // const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?website=${domain}&customerId=${userId}`;
-  const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?secret=8213a4078f82676dc243859fa9eb4f2aff62f6c62a7f0f174cf7e9873a37a330&userMobile=${userId}`;
+  // using Domain as secret key.....
+  const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?website=${domain}&customerId=${userId}`;
+  // const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?secret=8213a4078f82676dc243859fa9eb4f2aff62f6c62a7f0f174cf7e9873a37a330&userMobile=${userId}`;
 
   const sendTrackingApi = async (
     couponId,
@@ -85,6 +85,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
     root.removeChild(loadingContainer);
 
     if (data.status === "success") {
+      console.log("Coupon Data:", data);
       const { couponCode, couponId, publisherId, offer } = data;
       sendTrackingApi(couponId, couponCode, publisherId, "distribution");
 
@@ -107,7 +108,8 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
           root.createComponent(
             Button,
             {
-              kind: "plain",
+              kind: "primary",
+              appearance: "monochrome", // Makes button black
               fullWidth: true,
               onPress: () => {
                 sendTrackingApi(couponId, couponCode, publisherId, "order");
@@ -200,7 +202,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
               [
                 root.createComponent(
                   BlockStack,
-                  { spacing: "none", inlineAlignment: "center" },
+                  { spacing: "tight", inlineAlignment: "center" },
                   [
                     // root.createComponent(
                     //   TextBlock,
@@ -245,7 +247,32 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                             ),
                           ],
                         ),
+                        // --- COPY BUTTON ADDED HERE ---
+                        root.createComponent(
+                          Button,
+                          {
+                            kind: "plain", // Plain kind reduces the padding/visual size significantly
+                            appearance: "monochrome", // Keeps text/icon black
+                            onPress: () => {
+                              try {
+                                ui.action.copyToClipboard(couponCode);
+                              } catch (e) {}
+                              sendTrackingApi(couponId, couponCode, publisherId, "click");
+                            },
+                          },
+                          "Copy"
+                        ),
                       ],
+                    ),
+                    // Validity Section
+                    root.createComponent(
+                      TextBlock,
+                      { size: "extraSmall", appearance: "subdued" },
+                      `⏳ Valid until: ${new Date(offer.endValidity).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}`
                     ),
                   ],
                 ),
@@ -278,6 +305,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
               Button,
               {
                 kind: "primary",
+                appearance: "monochrome", // Makes button black
                 fullWidth: true,
                 external: true,
                 to: offer.link.value,
@@ -358,7 +386,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
       );
     }
   } catch (error) {
-    console.error("API Error", error);
+    console.error("Something went wrong, please try again!");
   }
   root.mount();
 });
