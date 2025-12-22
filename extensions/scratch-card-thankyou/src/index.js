@@ -19,9 +19,12 @@ extend("Checkout::PostPurchase::ShouldRender", async ({ storage }) => {
 
 extend("Checkout::PostPurchase::Render", async (root, input) => {
   const { ui, inputData } = input;
+  const domain = inputData?.shop?.domain;
   const userId = inputData?.initialPurchase?.customerId;
   const userEmail = inputData?.initialPurchase?.customer?.email || "";
 
+  // use first apiUrl after the BE fix for Domain as secret key.....
+  // const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?website=${domain}&customerId=${userId}`;
   const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?secret=8213a4078f82676dc243859fa9eb4f2aff62f6c62a7f0f174cf7e9873a37a330&userMobile=${userId}`;
 
   const sendTrackingApi = async (
