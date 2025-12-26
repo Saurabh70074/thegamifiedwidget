@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 import {
   extend,
@@ -11,6 +10,7 @@ import {
   View,
   InlineStack,
   Separator,
+  // TextField,
 } from "@shopify/post-purchase-ui-extensions";
 
 extend("Checkout::PostPurchase::ShouldRender", async ({ storage }) => {
@@ -152,7 +152,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
           { blockSize: 180, cornerRadius: "none", overflow: "hidden" },
           [
             root.createComponent(Image, {
-              source: "https://picsum.photos/400/200",
+              source: offer?.thumbnail,
               fit: "cover",
             }),
           ],
@@ -175,7 +175,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                   },
                   [
                     root.createComponent(Image, {
-                      source: "https://picsum.photos/50",
+                      source: offer.logo,
                     }),
                   ],
                 ),
@@ -247,31 +247,17 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                             ),
                           ],
                         ),
-                        // --- COPY BUTTON ADDED HERE ---
-                        root.createComponent(
-                          Button,
-                          {
-                            kind: "plain", // Plain kind reduces the padding/visual size significantly
-                            appearance: "monochrome", // Keeps text/icon black
-                            onPress: () => {
-                              try {
-                                ui.action.copyToClipboard(couponCode);
-                              } catch (e) {}
-                            },
-                          },
-                          "Copy"
-                        ),
                       ],
                     ),
                     // Validity Section
                     root.createComponent(
                       TextBlock,
                       { size: "extraSmall", appearance: "subdued" },
-                      `⏳ Valid until: ${new Date(offer.endValidity).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}`
+                      `⏳ Valid until: ${new Date(offer.endValidity).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}`,
                     ),
                   ],
                 ),
@@ -307,7 +293,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                 appearance: "monochrome", // Makes button black
                 fullWidth: true,
                 external: true,
-                to: offer.link.value,
+                to: `${offer.link.value}?discount=${couponCode}`,
                 onPress: () => {
                   try {
                     ui.action.copyToClipboard(couponCode);
