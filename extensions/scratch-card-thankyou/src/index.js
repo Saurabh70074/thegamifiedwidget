@@ -10,7 +10,6 @@ import {
   View,
   InlineStack,
   Separator,
-  // TextField,
 } from "@shopify/post-purchase-ui-extensions";
 
 extend("Checkout::PostPurchase::ShouldRender", async ({ storage }) => {
@@ -23,9 +22,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
   const userId = inputData?.initialPurchase?.customerId;
   const userEmail = inputData?.initialPurchase?.customer?.email || "";
 
-  // using Domain as secret key.....
-  const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?website=${domain}&customerId=${userId}`;
-  // const apiUrl = `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?secret=8213a4078f82676dc243859fa9eb4f2aff62f6c62a7f0f174cf7e9873a37a330&userMobile=${userId}`;
+  const apiUrl = `https://api.thegamified.com/api/v1/gamified/distribution/coupons?website=${domain}&customerId=${userId}`;
 
   const sendTrackingApi = async (
     couponId,
@@ -35,7 +32,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
   ) => {
     try {
       await fetch(
-        `https://stageapi.thegamified.com/api/v1/gamified/create/order/data/${couponId}`,
+        `https://api.thegamified.com/api/v1/gamified/create/order/data/${couponId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -109,7 +106,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
             Button,
             {
               kind: "primary",
-              appearance: "monochrome", // Makes button black
+              appearance: "monochrome",
               fullWidth: true,
               onPress: () => {
                 sendTrackingApi(couponId, couponCode, publisherId, "order");
@@ -119,7 +116,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
             "🎁 Reveal My Reward",
           ),
 
-          // FIXED ALIGNMENT: Powered By + Logo
+          // Powered By + Logo
           root.createComponent(
             InlineStack,
             {
@@ -133,12 +130,11 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                 { size: "extraSmall", emphasis: "bold", appearance: "subdued" },
                 "Powered by",
               ),
-              // Removed the View wrapper to avoid extra padding that causes misalignment
               root.createComponent(Image, {
                 source:
                   "https://cdn.shopify.com/s/files/1/0783/6889/9330/files/GamifiedLogo.png?v=1766327167&width=100",
                 fit: "contain",
-                inlineSize: 70, // Explicit size helps alignment
+                inlineSize: 70,
               }),
             ],
           ),
@@ -190,7 +186,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
               ],
             ),
 
-            // --- IMPROVED COUPON BLOCK (No top gap for mov) ---
+            // --- IMPROVED COUPON BLOCK ---
             root.createComponent(
               View,
               {
@@ -204,11 +200,6 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
                   BlockStack,
                   { spacing: "tight", inlineAlignment: "center" },
                   [
-                    // root.createComponent(
-                    //   TextBlock,
-                    //   { size: "extraSmall", emphasis: "bold" },
-                    //   offer.mov,
-                    // ),
                     root.createComponent(
                       InlineStack,
                       {
@@ -290,7 +281,7 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
               Button,
               {
                 kind: "primary",
-                appearance: "monochrome", // Makes button black
+                appearance: "monochrome",
                 fullWidth: true,
                 external: true,
                 to: `${offer.link.value}?discount=${couponCode}`,
@@ -306,7 +297,6 @@ extend("Checkout::PostPurchase::Render", async (root, input) => {
 
             root.createComponent(Separator),
 
-            // T&C Section
             root.createComponent(BlockStack, { spacing: "extraTight" }, [
               root.createComponent(
                 TextBlock,

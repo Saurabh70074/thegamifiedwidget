@@ -21,7 +21,7 @@ const Visit = ({
   const fetchOffers = async () => {
     try {
       const res = await fetch(
-        `https://stageapi.thegamified.com/api/v1/gamified/distribution/coupons?secret=${secret}&userMobile=${mobile}`
+        `https://api.thegamified.com/api/v1/gamified/distribution/coupons?secret=${secret}&userMobile=${mobile}`
       );
       const data = await res.json();
 

@@ -20,7 +20,7 @@ function VisitProductCard({
     if (offer) {
       try {
         await fetch(
-          `https://stageapi.thegamified.com/api/v1/gamified/create/order/data/${couponId}`,
+          `https://api.thegamified.com/api/v1/gamified/create/order/data/${couponId}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
