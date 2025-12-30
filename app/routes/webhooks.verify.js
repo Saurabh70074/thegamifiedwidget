@@ -12,7 +12,8 @@ export function verifyWebhook(request) {
   const body = request.body;
   
   // Your client secret from the Dev Dashboard
-const clientSecret = process.env.SHOPIFY_API_SECRET;  
+  const clientSecret = process.env.SHOPIFY_API_SECRET;
+  
   // Generate HMAC
   const hash = crypto
     .createHmac('sha256', clientSecret)
