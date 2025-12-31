@@ -1,8 +1,6 @@
-# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
-
 client_id = "2015ebb62d28424eacd5096814f3870d"
 name = "productwidget"
-application_url = "https://example.com"
+application_url = "https://api.thegamified.com"
 embedded = true
 
 [build]
@@ -11,33 +9,22 @@ automatically_update_urls_on_dev = true
 [webhooks]
 api_version = "2026-01"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
+[[webhooks.subscriptions]]
+topics = [ "app/uninstalled" ]
+uri = "/webhooks/app/uninstalled"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
-
-  # GDPR Mandatory Webhooks - Commented out until endpoints are verified
-  # [[webhooks.subscriptions]]
-  # topics = [ "customers/data_request" ]
-  # uri = "https://api.thegamified.com/api/v1/webhooks/gdpr/data-request"
-
-  # [[webhooks.subscriptions]]
-  # topics = [ "customers/redact" ]
-  # uri = "https://api.thegamified.com/api/v1/webhooks/gdpr/customer-redact"
-
-  # [[webhooks.subscriptions]]
-  # topics = [ "shop/redact" ]
-  # uri = "https://api.thegamified.com/api/v1/webhooks/gdpr/shop-redact"
+[[webhooks.subscriptions]]
+topics = [ "app/scopes_update" ]
+uri = "/webhooks/app/scopes_update"
 
 [access_scopes]
-# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "write_products"
 
+# ✅ REQUIRED BY SHOPIFY CLI (BUT HANDLED BY BACKEND)
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://api.thegamified.com/api/shopify/auth/callback"
+]
 
 [[extensions]]
 type = "ui_extension"
