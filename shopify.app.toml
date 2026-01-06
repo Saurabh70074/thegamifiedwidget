@@ -6,6 +6,9 @@ embedded = true
 [build]
 automatically_update_urls_on_dev = true
 
+# --------------------
+# NORMAL WEBHOOKS
+# --------------------
 [webhooks]
 api_version = "2026-01"
 
@@ -17,29 +20,33 @@ uri = "/webhooks/app/uninstalled"
 topics = [ "app/scopes_update" ]
 uri = "/webhooks/app/scopes_update"
 
+# --------------------
+# GDPR / PRIVACY COMPLIANCE WEBHOOKS (MANDATORY)
+# --------------------
+[webhooks.privacy_compliance]
+api_version = "2024-07"
 
-[[webhooks.subscriptions]]
-topics = [ "customers/data_request" ]
-uri = "/webhooks/gdpr/data-request"
+customers_data_request = "/webhooks/gdpr/data-request"
+customers_redact       = "/webhooks/gdpr/customer-redact"
+shop_redact            = "/webhooks/gdpr/shop-redact"
 
-[[webhooks.subscriptions]]
-topics = [ "customers/redact" ]
-uri = "/webhooks/gdpr/customer-redact"
-
-[[webhooks.subscriptions]]
-topics = [ "shop/redact" ]
-uri = "/webhooks/gdpr/shop-redact"
-
-
+# --------------------
+# ACCESS SCOPES
+# --------------------
 [access_scopes]
 scopes = "write_products"
 
-# ✅ REQUIRED BY SHOPIFY CLI (BUT HANDLED BY BACKEND)
+# --------------------
+# AUTH
+# --------------------
 [auth]
 redirect_urls = [
   "https://api.thegamified.com/api/shopify/auth/callback"
 ]
 
+# --------------------
+# EXTENSION
+# --------------------
 [[extensions]]
 type = "ui_extension"
 name = "Thank You Page Link"
