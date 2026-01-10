@@ -1,5 +1,5 @@
 client_id = "2015ebb62d28424eacd5096814f3870d"
-name = "productwidget"
+name = "gamified"
 application_url = "https://api.thegamified.com"
 embedded = true
 
@@ -7,34 +7,34 @@ embedded = true
 automatically_update_urls_on_dev = true
 
 # --------------------
-# NORMAL WEBHOOKS
+# WEBHOOKS (NORMAL + GDPR)
 # --------------------
 [webhooks]
 api_version = "2026-01"
 
+# Normal webhooks
 [[webhooks.subscriptions]]
-topics = [ "app/uninstalled" ]
+topics = ["app/uninstalled"]
 uri = "/webhooks/app/uninstalled"
 
 [[webhooks.subscriptions]]
-topics = [ "app/scopes_update" ]
+topics = ["app/scopes_update"]
 uri = "/webhooks/app/scopes_update"
 
-# --------------------
-# GDPR / PRIVACY COMPLIANCE WEBHOOKS (MANDATORY)
-# --------------------
-[webhooks.privacy_compliance]
-api_version = "2024-07"
-
-customers_data_request = "/webhooks/gdpr/data-request"
-customers_redact       = "/webhooks/gdpr/customer-redact"
-shop_redact            = "/webhooks/gdpr/shop-redact"
+# GDPR / Compliance webhooks (MANDATORY)
+[[webhooks.subscriptions]]
+compliance_topics = [
+  "customers/data_request",
+  "customers/redact",
+  "shop/redact"
+]
+uri = "/webhooks/gdpr"
 
 # --------------------
 # ACCESS SCOPES
 # --------------------
 [access_scopes]
-scopes = "write_products"
+scopes = "write_products,read_customers"
 
 # --------------------
 # AUTH
